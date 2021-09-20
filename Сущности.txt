@@ -1,0 +1,28 @@
+Player: Character
+- Fire()
+- Abilities
+- MoveController()
+
+Character
+- HealtPoint
+- MoveSpeed
+- AtackSpeed
+
+Enemy: Character
+- Fire()
+- ActivationTrigger()
+
+Level
+- Timer
+- Level completation logic
+- SpawnPoints
+- transition to next level
+
+Abilities
+- Use()
+- Couldown
+
+Coins
+- AddCoins()
+
+StatusBar
