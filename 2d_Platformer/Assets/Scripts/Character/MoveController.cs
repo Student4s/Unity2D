@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class MoveController : MonoBehaviour
 {
-   public bool IsDash=false;
-    
+
     public float speed = 2f;
     private Rigidbody2D rb;
     [SerializeField] private bool Face = true;
@@ -16,9 +15,11 @@ public class MoveController : MonoBehaviour
     [SerializeField]private int JumpCounter=2;
     public int MaxJumpCount = 2;
 
+    public bool IsDash=false;
     private int DashCounter = 1;
     public int MaxDashCounter = 1;
     public float DashForce=750f;
+    [SerializeField] private float Dash_delay = 1f;
 
     void Start()
     {
@@ -42,7 +43,14 @@ public class MoveController : MonoBehaviour
     void Moves()
     {
         float moveInput = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+        
+        if (moveInput!=0) 
+            rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+        else
+        { 
+            rb.velocity = new Vector2(0, rb.velocity.y);
+        }
+           
 
         if (!Face && moveInput > 0)
             Flip();
@@ -67,16 +75,24 @@ public class MoveController : MonoBehaviour
     {
         if (Input.GetMouseButton(1) && DashCounter > 0 && IsDash)
         {
-            if(Face)
-                rb.AddForce(Vector2.right * DashForce);
-            else
-                rb.AddForce(Vector2.left * DashForce);
+            if (Dash_delay<0) 
+                if (Face) 
+                {
+                    rb.AddForce(Vector2.right * DashForce);
+                    //Dash_delay = 1f; 
+                }
+                else 
+                {
+                    rb.AddForce(Vector2.left * DashForce);
+                   // Dash_delay = 1f; 
+                }
         }
+
+        //Dash_delay -= Time.deltaTime;
     }
     void OnCollisionEnter2D(Collision2D Obj)
     {
         IsGround = true;
-        Debug.Log("sdf");
         DashCounter = MaxDashCounter;
     }
 
