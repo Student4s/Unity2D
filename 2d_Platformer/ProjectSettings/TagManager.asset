@@ -9,6 +9,7 @@ TagManager:
   - Traps
   - Portal
   - SafePoint
+  - Character Vision
   layers:
   - Default
   - TransparentFX
